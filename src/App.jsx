@@ -15,10 +15,10 @@ const App = () => {
 	return (
 		<div>
 			<h1>React Media Recorder</h1>
-			<div className="button-flex">
+			{/* <div className="button-flex">
 				<button onClick={toggleRecordOption("video")}>Record Video</button>
-				<button onClick={toggleRecordOption("audio")}>Record Audio</button>
-			</div>
+				 <button onClick={toggleRecordOption("audio")}>Record Audio</button>
+			</div> */}
 			<div>
 				{recordOption === "video" ? <VideoRecorder /> : <AudioRecorder />}
 			</div>

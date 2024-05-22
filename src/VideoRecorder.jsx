@@ -92,6 +92,36 @@ const VideoRecorder = () => {
 		};
 	};
 
+	const uploadRecording = async () => {
+		//upload recordedVideo to Azure Blob sotrage using sas key
+		if (recordedVideo) {
+			const sasKey = ""; //add your sas key here
+			const storageAccount = ""; //add your storage account name here
+			const containerName = ""; //add your container name here
+			const blobName = ""; //add your blob name here
+			const bytes = await fetch(recordedVideo).then((res) => res.blob());
+			try {
+				const response = await fetch(storageAccount + "/" + containerName + "/" + blobName + "?" + sasKey, {
+					method: "PUT",
+					body: bytes,
+					headers: {
+						"Content-Type": mimeType,
+						"x-ms-version":"2024-05-04",
+						"x-ms-date": Date.now(),
+						"x-ms-blob-type": "BlockBlob"
+					},
+				});
+				if (response.ok) {
+					console.log("Recording uploaded successfully");
+				} else {
+					console.error("Failed to upload recording");
+				}
+			} catch (error) {
+				console.error("Error uploading recording:", error);
+			}
+		}
+	};
+
 	return (
 		<div>
 			<h2>Video Recorder</h2>
@@ -122,6 +152,11 @@ const VideoRecorder = () => {
 				{recordedVideo ? (
 					<div className="recorded-player">
 						<video className="recorded" src={recordedVideo} controls></video>
+						<div className="video-controls">
+						<button onClick={uploadRecording} type="button">
+							Upload Recording to Azure blob storage
+						</button>
+						</div>
 						<a download href={recordedVideo}>
 							Download Recording
 						</a>
