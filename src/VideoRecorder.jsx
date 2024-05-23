@@ -95,13 +95,10 @@ const VideoRecorder = () => {
 	const uploadRecording = async () => {
 		//upload recordedVideo to Azure Blob sotrage using sas key
 		if (recordedVideo) {
-			const sasKey = "sp=cw&st=2024-05-23T06:22:33Z&se=2024-05-23T14:22:33Z&spr=https&sv=2022-11-02&sr=c&sig=Z%2Boq6MOWXPneJUQtUfccyLWMIAixpN4U4ADd2fesGFc%3D"; //add your sas key here
-			const storageAccount = "https://rbklaistorage.blob.core.windows.net"; //add your storage account url here
-			const containerName = "videos"; //add your container name here
-			const blobName = "test123.webm"; //add your blob name here
+			const id = Math.random().toString(36).substring(7);
 			const bytes = await fetch(recordedVideo).then((res) => res.blob());
 			try {
-				const response = await fetch(storageAccount + "/" + containerName + "/" + blobName + "?" + sasKey, {
+				const response = await fetch("/recortding/"+id, {
 					method: "PUT",
 					body: bytes,
 					headers: {
