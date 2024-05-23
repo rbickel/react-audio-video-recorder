@@ -95,10 +95,10 @@ const VideoRecorder = () => {
 	const uploadRecording = async () => {
 		//upload recordedVideo to Azure Blob sotrage using sas key
 		if (recordedVideo) {
-			const sasKey = ""; //add your sas key here
-			const storageAccount = ""; //add your storage account name here
-			const containerName = ""; //add your container name here
-			const blobName = ""; //add your blob name here
+			const sasKey = "sp=cw&st=2024-05-23T06:22:33Z&se=2024-05-23T14:22:33Z&spr=https&sv=2022-11-02&sr=c&sig=Z%2Boq6MOWXPneJUQtUfccyLWMIAixpN4U4ADd2fesGFc%3D"; //add your sas key here
+			const storageAccount = "https://rbklaistorage.blob.core.windows.net"; //add your storage account url here
+			const containerName = "videos"; //add your container name here
+			const blobName = "test123.webm"; //add your blob name here
 			const bytes = await fetch(recordedVideo).then((res) => res.blob());
 			try {
 				const response = await fetch(storageAccount + "/" + containerName + "/" + blobName + "?" + sasKey, {
@@ -113,6 +113,8 @@ const VideoRecorder = () => {
 				});
 				if (response.ok) {
 					console.log("Recording uploaded successfully");
+					alert("Recording uploaded successfully");
+					window.location.reload();
 				} else {
 					console.error("Failed to upload recording");
 				}
@@ -122,49 +124,54 @@ const VideoRecorder = () => {
 		}
 	};
 
-	return (
-		<div>
-			<h2>Video Recorder</h2>
-			<main>
-				<div className="video-controls">
-					{!permission ? (
-						<button onClick={getCameraPermission} type="button">
-							Get Camera
-						</button>
-					) : null}
-					{permission && recordingStatus === "inactive" ? (
-						<button onClick={startRecording} type="button">
-							Start Recording
-						</button>
-					) : null}
-					{recordingStatus === "recording" ? (
-						<button onClick={stopRecording} type="button">
-							Stop Recording
-						</button>
-					) : null}
-				</div>
-			</main>
+	// ... (keep the existing code as it is)
 
-			<div className="video-player">
-				{!recordedVideo ? (
-					<video ref={liveVideoFeed} autoPlay className="live-player"></video>
-				) : null}
-				{recordedVideo ? (
-					<div className="recorded-player">
-						<video className="recorded" src={recordedVideo} controls></video>
-						<div className="video-controls">
-						<button onClick={uploadRecording} type="button">
-							Upload Recording to Azure blob storage
-						</button>
-						</div>
-						<a download href={recordedVideo}>
-							Download Recording
-						</a>
-					</div>
-				) : null}
-			</div>
-		</div>
-	);
+return (
+    <div className="recorder-container">
+        <label>Please record a 2 minutes video and once you are satisfied upload it to our server. You can record as many videos as you desire but only upload it once.</label><p/>
+        <main>
+            <div className="video-controls">
+                {!permission ? (
+                    <button onClick={getCameraPermission} type="button" class="enableCamera">
+                        Enable Camera
+                    </button>
+                ) : null}
+                {permission && recordingStatus === "inactive" ? (
+                    <button onClick={startRecording} type="button" class="startRecording">
+                        Start Recording
+                    </button>
+                ) : null}
+                {recordingStatus === "recording" ? (
+                    <button onClick={stopRecording} type="button" class="stopRecording">
+                        Stop Recording
+                    </button>
+                ) : null}
+            </div>
+        </main>
+
+        <div className="video-player">
+            {!recordedVideo ? (
+                <video ref={liveVideoFeed} autoPlay className="live-player"></video>
+            ) : null}
+            {recordedVideo ? (
+                <div className="recorded-player">
+                    <video className="recorded" src={recordedVideo} controls></video>
+                    <div className="video-controls">
+						<p/>
+                    <button onClick={uploadRecording} type="button">
+                        Upload Recording
+                    </button>
+                    </div>
+                    <a download href={recordedVideo}>
+                        Download Recording
+                    </a>
+                </div>
+            ) : null}
+        </div>
+    </div>
+);
+
+// ... (keep the existing code as it is)
 };
 
 export default VideoRecorder;
