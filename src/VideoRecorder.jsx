@@ -98,7 +98,7 @@ const VideoRecorder = () => {
 			const id = Math.random().toString(36).substring(7);
 			const bytes = await fetch(recordedVideo).then((res) => res.blob());
 			try {
-				const response = await fetch("/recortding/"+id, {
+				const response = await fetch("/recording/"+id, {
 					method: "PUT",
 					body: bytes,
 					headers: {
