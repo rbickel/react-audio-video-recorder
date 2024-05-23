@@ -32,7 +32,7 @@ namespace api
 
         [FunctionName("recording")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "api/recording/{id}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "recording/{id}")] HttpRequest req,
             string id,
             ILogger log)
         {
