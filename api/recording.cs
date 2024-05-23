@@ -52,15 +52,7 @@ namespace api
             // Upload the file to Azure Storage account
             string storageConnectionString = GetConnectionString();
             string containerName = GetContainerName();
-
-            // TODO: Implement the code to upload the file to Azure Storage account using the fileBytes, contentType, storageConnectionString, and containerName variables
-
-            // Example code to upload the file using Azure.Storage.Blobs package
             
-
-            // ...
-
-            // FILEPATH: /C:/Projects/react-audio-video-recorder/api/recording.cs
             using (var stream = new MemoryStream(fileBytes))
             {
                 var blobServiceClient = new BlobServiceClient(storageConnectionString);
