@@ -57,7 +57,7 @@ namespace api
             {
                 var blobServiceClient = new BlobServiceClient(storageConnectionString);
                 var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
-                var blobClient = containerClient.GetBlobClient(id+Path.GetExtension(contentType));
+                var blobClient = containerClient.GetBlobClient(id+".webm");
                 await blobClient.UploadAsync(stream, new BlobUploadOptions { HttpHeaders = new BlobHttpHeaders { ContentType = contentType } });
             }
 

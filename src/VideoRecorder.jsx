@@ -114,9 +114,11 @@ const VideoRecorder = () => {
 					window.location.reload();
 				} else {
 					console.error("Failed to upload recording");
+					alert("Failed to upload recording:",	response.statusText);
 				}
 			} catch (error) {
 				console.error("Error uploading recording:", error);
+				alert("Error uploading recording:", error);
 			}
 		}
 	};
